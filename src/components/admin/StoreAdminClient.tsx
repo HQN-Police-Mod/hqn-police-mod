@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react";
 import {
   Package, Tag, Plus, Pencil, Trash2, LogOut,
   CheckCircle, XCircle, ToggleLeft, ToggleRight,
-  Star, Save, X, RefreshCw
+  Star, Save, X, RefreshCw, Wrench, AlertTriangle
 } from "lucide-react";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Button } from "@/components/ui/Button";
@@ -29,7 +29,7 @@ interface DBCoupon {
   description: string | null; createdAt: string;
 }
 
-type Tab = "products" | "coupons";
+type Tab = "products" | "coupons" | "maintenance";
 
 interface Props {
   user: { name?: string | null; email?: string | null; image?: string | null };
@@ -66,6 +66,10 @@ export function StoreAdminClient({ user }: Props) {
   const [editCoupon, setEditCoupon] = useState<Partial<DBCoupon>>(emptyCoupon());
   const [isEditingCoupon, setIsEditingCoupon] = useState(false);
 
+  // Maintenance
+  const [maintenance, setMaintenance] = useState(false);
+  const [maintenanceMsg, setMaintenanceMsg] = useState("الموقع تحت الصيانة، سنعود قريباً");
+  const [savingMaintenance, setSavingMaintenance] = useState(false);
   const showMsg = (type: "ok" | "err", text: string) => {
     setMsg({ type, text });
     setTimeout(() => setMsg(null), 3500);
@@ -84,7 +88,26 @@ export function StoreAdminClient({ user }: Props) {
 
   useEffect(() => {
     Promise.all([fetchProducts(), fetchCoupons()]).finally(() => setLoading(false));
+    // Fetch maintenance state
+    fetch("/api/admin/maintenance").then(r => r.json()).then(d => {
+      setMaintenance(d.maintenanceMode ?? false);
+      setMaintenanceMsg(d.maintenanceMsg ?? "الموقع تحت الصيانة، سنعود قريباً");
+    }).catch(() => {});
   }, [fetchProducts, fetchCoupons]);
+
+  const saveMaintenance = async () => {
+    setSavingMaintenance(true);
+    try {
+      const r = await fetch("/api/admin/maintenance", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ maintenanceMode: maintenance, maintenanceMsg }),
+      });
+      if (r.ok) showMsg("ok", maintenance ? "وضع الصيانة مفعّل" : "الموقع يعمل بشكل طبيعي");
+      else showMsg("err", "فشل الحفظ");
+    } catch { showMsg("err", "خطأ في الاتصال"); }
+    finally { setSavingMaintenance(false); }
+  };
 
   // ── Product CRUD ──
   const openNewProduct = () => { setEditProduct(emptyProduct()); setIsEditingProduct(false); setProductModal(true); };
@@ -185,6 +208,7 @@ export function StoreAdminClient({ user }: Props) {
           {[
             { id: "products" as Tab, label: "المنتجات", icon: Package, count: products.length },
             { id: "coupons" as Tab, label: "الكوبونات", icon: Tag, count: coupons.length },
+          { id: "maintenance" as Tab, label: "الصيانة", icon: Wrench, count: 0 },
           ].map((t) => (
             <button key={t.id} onClick={() => setTab(t.id)}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${tab === t.id ? "bg-[#C9A84C]/15 border border-[#C9A84C]/30 text-[#E8C96A]" : "bg-[#1A1A1F] border border-[#2A2A32] text-[#6B6558] hover:text-[#C9A84C]"}`}>
@@ -306,7 +330,59 @@ export function StoreAdminClient({ user }: Props) {
         )}
       </div>
 
-      {/* ── Product Modal ─────────────────── */}
+          {/* ── Maintenance Tab ── */}
+          ) : tab === "maintenance" ? (
+            <GlassCard className="p-6 max-w-lg">
+              <div className="flex items-center gap-3 mb-6">
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${maintenance ? "bg-red-500/15 border border-red-500/25" : "bg-green-500/15 border border-green-500/25"}`}>
+                  <Wrench size={22} className={maintenance ? "text-red-400" : "text-green-400"} />
+                </div>
+                <div>
+                  <h3 className="text-[#F5F0E8] font-bold">وضع الصيانة</h3>
+                  <p className="text-[#5A5045] text-xs">عند التفعيل يُعاد توجيه جميع الزوار لصفحة الصيانة</p>
+                </div>
+              </div>
+
+              {maintenance && (
+                <div className="flex items-center gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 mb-5">
+                  <AlertTriangle size={16} className="text-red-400 shrink-0" />
+                  <p className="text-red-400 text-sm font-semibold">الموقع تحت الصيانة حالياً — الزوار لا يرون المحتوى</p>
+                </div>
+              )}
+
+              <div className="space-y-4">
+                {/* Toggle */}
+                <div className="flex items-center justify-between p-4 rounded-xl bg-[#1A1A1F] border border-[#2A2A32]">
+                  <span className="text-[#F5F0E8] font-medium text-sm">تفعيل وضع الصيانة</span>
+                  <button
+                    onClick={() => setMaintenance(!maintenance)}
+                    className={`w-12 h-6 rounded-full transition-colors relative ${maintenance ? "bg-red-500" : "bg-[#2A2A32]"}`}
+                  >
+                    <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all ${maintenance ? "right-0.5" : "left-0.5"}`} />
+                  </button>
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className="block text-[#C9A84C] text-xs font-semibold mb-1.5 uppercase tracking-wider">
+                    رسالة الصيانة
+                  </label>
+                  <textarea
+                    value={maintenanceMsg}
+                    onChange={(e) => setMaintenanceMsg(e.target.value)}
+                    rows={3}
+                    className="input-dark w-full px-4 py-3 rounded-xl text-sm resize-none"
+                    placeholder="الموقع تحت الصيانة، سنعود قريباً"
+                  />
+                  <p className="text-[#5A5045] text-xs mt-1">هذه الرسالة تظهر لجميع الزوار خلال فترة الصيانة</p>
+                </div>
+
+                <Button onClick={saveMaintenance} loading={savingMaintenance} className="w-full gap-2">
+                  <Save size={16} />
+                  <span>حفظ الإعدادات</span>
+                </Button>
+              </div>
+            </GlassCard>
       {productModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
           <GlassCard className="w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 relative">
