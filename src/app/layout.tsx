@@ -1,17 +1,8 @@
 import type { Metadata } from "next";
-import { Cairo } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { PageTransition } from "@/components/layout/PageTransition";
-
-const cairo = Cairo({
-  subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-cairo",
-  display: "swap",
-  preload: true,
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.SITE_URL),
@@ -20,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s | HQN POLICE MOD",
   },
   description: siteConfig.SERVER_DESCRIPTION,
-  keywords: ["HQN", "Police Mod", "FiveM", "Saudi", "Roleplay", "حقن مود الشرطة", "سيرفر شرطة"],
+  keywords: ["HQN", "Police Mod", "FiveM", "Saudi", "Roleplay", "حقن مود الشرطة"],
   authors: [{ name: "HQN POLICE MOD" }],
   creator: "HQN POLICE MOD",
   openGraph: {
@@ -39,23 +30,28 @@ export const metadata: Metadata = {
     images: [siteConfig.OG_IMAGE],
   },
   robots: { index: true, follow: true },
-  icons: {
-    icon: "/HQN.png",
-    shortcut: "/HQN.png",
-    apple: "/HQN.png",
-  },
+  icons: { icon: "/HQN.png", shortcut: "/HQN.png", apple: "/HQN.png" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" className={cairo.variable} suppressHydrationWarning>
-      <body className={cairo.className} suppressHydrationWarning>
-        {/* Intro — shows once per session */}
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <head>
+        {/* Cairo font via Google Fonts CDN */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+        <style>{`
+          :root { --font-cairo: 'Cairo', sans-serif; }
+          body { font-family: 'Cairo', sans-serif; }
+        `}</style>
+      </head>
+      <body suppressHydrationWarning>
         <PageIntro />
-        {/* Page transition wrapper */}
-        <PageTransition>
-          {children}
-        </PageTransition>
+        <PageTransition>{children}</PageTransition>
       </body>
     </html>
   );
