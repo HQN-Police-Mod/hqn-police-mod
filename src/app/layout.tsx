@@ -3,6 +3,7 @@ import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { PageIntro } from "@/components/layout/PageIntro";
 import { PageTransition } from "@/components/layout/PageTransition";
+import { Providers } from "@/components/layout/Providers";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.SITE_URL),
@@ -57,8 +58,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}</style>
       </head>
       <body suppressHydrationWarning>
-        <PageIntro />
-        <PageTransition>{children}</PageTransition>
+        <Providers>
+          <PageIntro />
+          <PageTransition>{children}</PageTransition>
+        </Providers>
       </body>
     </html>
   );
