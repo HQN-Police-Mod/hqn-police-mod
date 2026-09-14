@@ -30,7 +30,14 @@ export const metadata: Metadata = {
     images: [siteConfig.OG_IMAGE],
   },
   robots: { index: true, follow: true },
-  icons: { icon: "/HQN.png", shortcut: "/HQN.png", apple: "/HQN.png" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/HQN.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
