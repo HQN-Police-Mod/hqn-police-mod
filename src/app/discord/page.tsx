@@ -38,7 +38,7 @@ export default function DiscordPage() {
             <span className="gold-text">HQN</span>
           </h1>
           <p className="text-[#8A8070] text-lg mb-8">
-            500+ عضو ينتظرونك — تابع أخبار السيرفر وتواصل مع المجتمع
+            9K عضو ينتظرونك — تابع أخبار السيرفر وتواصل مع المجتمع
           </p>
 
           <a
@@ -57,7 +57,7 @@ export default function DiscordPage() {
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-16">
           {[
-            { label: "الأعضاء", value: "500+", icon: Users },
+            { label: "الأعضاء", value: "9K", icon: Users },
             { label: "أونلاين الآن", value: "100+", icon: Bell },
             { label: "القنوات", value: "20+", icon: MessageSquare },
           ].map((stat, i) => (
