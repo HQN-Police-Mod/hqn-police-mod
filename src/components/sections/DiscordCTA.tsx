@@ -25,7 +25,7 @@ export function DiscordCTA() {
 
             <div className="flex items-center justify-center gap-2 mb-4">
               <Users size={16} className="text-[#C9A84C]" />
-              <span className="text-[#C9A84C] font-semibold text-sm">500+ عضو</span>
+              <span className="text-[#C9A84C] font-semibold text-sm">9K عضو</span>
             </div>
 
             <h2 className="heading-ar text-3xl md:text-4xl font-bold text-[#F5F0E8] mb-4">
