@@ -103,7 +103,7 @@ export function StatsSection() {
             <div className="w-10 h-10 rounded-lg bg-[#C9A84C]/12 border border-[#C9A84C]/25 flex items-center justify-center mx-auto mb-3">
               <Award size={20} className="text-[#C9A84C]" />
             </div>
-            <p className="text-xl font-black text-[#C9A84C] mb-1">500+</p>
+            <p className="text-xl font-black text-[#C9A84C] mb-1">9K</p>
             <p className="text-[#F5F0E8] text-sm font-semibold mb-0.5">Discord</p>
             <p className="text-[#5A5045] text-xs">عضو في المجتمع</p>
           </GlassCard>
