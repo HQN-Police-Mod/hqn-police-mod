@@ -121,7 +121,7 @@ export function Navbar() {
                 className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-white/5 border border-white/10 text-[#F5F0E8] rounded-lg hover:bg-white/10 transition-all"
               >
                 <GoogleIcon />
-                <span>دخول</span>
+                <span>تسجيل الدخول</span>
               </button>
             )}
 
@@ -194,8 +194,7 @@ export function Navbar() {
               >
                 <GoogleIcon />
                 <span>تسجيل الدخول بـ Google</span>
-              </button>
-            )}
+              </button>            )}
 
             <a
               href={siteConfig.DISCORD_URL}
