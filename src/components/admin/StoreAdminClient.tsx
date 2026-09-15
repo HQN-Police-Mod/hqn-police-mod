@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import { signOut } from "next-auth/react";
 import {
   Package, Tag, Plus, Pencil, Trash2, LogOut,
   CheckCircle, XCircle, ToggleLeft, ToggleRight,
@@ -196,7 +195,10 @@ export function StoreAdminClient({ user }: Props) {
         <div className="flex items-center gap-3">
           {user.image && <img src={user.image} alt="" className="w-8 h-8 rounded-full" />}
           <span className="text-[#6B6558] text-xs hidden sm:block">{user.email}</span>
-          <button onClick={() => signOut({ callbackUrl: "/" })} className="flex items-center gap-1 text-[#5A5045] hover:text-red-400 transition-colors text-xs">
+          <button onClick={async () => {
+            await fetch("/api/admin/auth", { method: "DELETE" });
+            window.location.href = "/admin/login";
+          }} className="flex items-center gap-1 text-[#5A5045] hover:text-red-400 transition-colors text-xs">
             <LogOut size={14} /><span>خروج</span>
           </button>
         </div>
