@@ -116,13 +116,13 @@ export function Navbar() {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={() => signIn("google")}
+              <a
+                href="/auth/signin"
                 className="flex items-center gap-2 px-4 py-2 text-sm font-semibold bg-white/5 border border-white/10 text-[#F5F0E8] rounded-lg hover:bg-white/10 transition-all"
               >
                 <GoogleIcon />
                 <span>تسجيل الدخول</span>
-              </button>
+              </a>
             )}
 
             {/* Join Server */}
@@ -188,13 +188,13 @@ export function Navbar() {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={() => signIn("google")}
+              <a
+                href="/auth/signin"
                 className="flex items-center justify-center gap-2 py-3 glass-card rounded-xl text-[#F5F0E8] font-semibold text-sm"
               >
                 <GoogleIcon />
                 <span>تسجيل الدخول بـ Google</span>
-              </button>            )}
+              </a>            )}
 
             <a
               href={siteConfig.DISCORD_URL}
