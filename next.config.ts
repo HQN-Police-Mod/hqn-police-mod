@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn.discordapp.com",
         pathname: "/embed/avatars/**",
       },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "/**",
+      },
     ],
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
