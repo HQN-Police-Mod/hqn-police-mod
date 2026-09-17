@@ -131,28 +131,6 @@ export default function AboutPage() {
           ))}
         </div>
 
-        {/* Timeline */}
-        <SectionHeader
-          badge="التاريخ"
-          title="رحلتنا"
-          subtitle="من فكرة إلى منظومة أمنية كاملة"
-        />
-        <div className="relative max-w-2xl mx-auto">
-          <div className="absolute right-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#C9A84C]/40 via-[#C9A84C]/20 to-transparent" />
-          <div className="space-y-8">
-            {timeline.map((item, i) => (
-              <div key={i} className="flex gap-6 items-start relative">
-                <div className="w-12 h-12 rounded-full bg-[#C9A84C]/10 border-2 border-[#C9A84C]/40 flex items-center justify-center shrink-0 relative z-10">
-                  <span className="text-[#C9A84C] text-xs font-black">{item.year}</span>
-                </div>
-                <GlassCard className="flex-1 p-4">
-                  <h4 className="text-[#E8C96A] font-bold mb-1">{item.title}</h4>
-                  <p className="text-[#6B6558] text-sm">{item.desc}</p>
-                </GlassCard>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </PageLayout>
   );
