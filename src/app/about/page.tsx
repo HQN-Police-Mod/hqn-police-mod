@@ -94,10 +94,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="mt-8 flex gap-4">
-              <Link href="/apply" className="btn-gold px-6 py-3 rounded-xl font-bold">
-                قدّم الآن
-              </Link>
-              <Link href="/sectors" className="btn-outline-gold px-6 py-3 rounded-xl font-semibold">
+              <Link href="/sectors" className="btn-gold px-6 py-3 rounded-xl font-bold">
                 القطاعات
               </Link>
             </div>
