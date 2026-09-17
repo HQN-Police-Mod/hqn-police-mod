@@ -26,3 +26,11 @@ export const staffMembers: StaffMember[] = [
     joinedAt: "2024-01-01",
   },
 ];
+
+export const boardMembers = [
+  { id: "b1", nameAr: "طارق العامري" },
+  { id: "b2", nameAr: "راكان العنزي" },
+  { id: "b3", nameAr: "علي شجاع" },
+  { id: "b4", nameAr: "يوسف الشريف" },
+  { id: "b5", nameAr: "خالد سامي" },
+];
